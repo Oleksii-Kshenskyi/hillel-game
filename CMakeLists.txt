@@ -5,7 +5,11 @@ find_package(fmt CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
 set(GAME_DIR src)
-set(GAME_SRC ${GAME_DIR}/main.cpp)
+set(GAME_SRC
+    ${GAME_DIR}/main.cpp
+    ${GAME_DIR}/Player.cpp
+    ${GAME_DIR}/Command.cpp
+    ${GAME_DIR}/World.cpp)
 
 include_directories(${GAME_DIR})
 

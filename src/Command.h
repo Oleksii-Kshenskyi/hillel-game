@@ -5,6 +5,7 @@
 #include <map>
 
 #include "World.h"
+#include "Utils.h"
 
 // The task of this class is as follows:
 // - Take the user input as a vector of words (["show", "my", "inventory"])
@@ -41,6 +42,27 @@ class RenameCommand: public Command {
     public:
         RenameCommand() {};
         ~RenameCommand() {};
+        void execute(std::vector<std::string>& args, World& world) override;
+};
+
+class WhereCommand: public Command {
+    public:
+        WhereCommand() {};
+        ~WhereCommand() {};
+        void execute(std::vector<std::string>& args, World& world) override;
+};
+
+class DescribeCommand: public Command {
+    public:
+        DescribeCommand() {};
+        ~DescribeCommand() {};
+        void execute(std::vector<std::string>& args, World& world) override;
+};
+
+class GoCommand: public Command {
+    public:
+        GoCommand() {};
+        ~GoCommand() {};
         void execute(std::vector<std::string>& args, World& world) override;
 };
 

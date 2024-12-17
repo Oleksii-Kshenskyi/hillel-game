@@ -10,18 +10,6 @@
 #include "Command.h"
 #include "World.h"
 
-// "show my inventory" => ["show", "my", "inventory"]
-std::vector<std::string> split(const std::string& command) {
-    std::stringstream ss(command);
-    std::vector<std::string> result;
-    std::string word;
-
-    while(ss >> word) {
-        result.push_back(word);
-    }
-        
-    return result;
-}
 
 int main() {
     std::string user_input;

@@ -9,7 +9,9 @@ set(GAME_SRC
     ${GAME_DIR}/main.cpp
     ${GAME_DIR}/Player.cpp
     ${GAME_DIR}/Command.cpp
-    ${GAME_DIR}/World.cpp)
+    ${GAME_DIR}/World.cpp
+    ${GAME_DIR}/Utils.cpp
+    ${GAME_DIR}/Location.cpp)
 
 include_directories(${GAME_DIR})
 

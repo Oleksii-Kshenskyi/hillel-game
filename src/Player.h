@@ -17,5 +17,5 @@ class Player {
         std::string name;
         uint32_t hp;
         std::vector<std::string> inventory;
-        std::string current_location;
+        std::string current_location = "Forest";
 };

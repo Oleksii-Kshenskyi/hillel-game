@@ -66,6 +66,13 @@ class GoCommand: public Command {
         void execute(std::vector<std::string>& args, World& world) override;
 };
 
+class UseCommand: public Command {
+    public:
+        UseCommand() {};
+        ~UseCommand() {};
+        void execute(std::vector<std::string>& args, World& world) override;
+};
+
 
 class CommandExecutor {
     public:

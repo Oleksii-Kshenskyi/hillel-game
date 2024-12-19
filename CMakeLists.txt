@@ -11,7 +11,8 @@ set(GAME_SRC
     ${GAME_DIR}/Command.cpp
     ${GAME_DIR}/World.cpp
     ${GAME_DIR}/Utils.cpp
-    ${GAME_DIR}/Location.cpp)
+    ${GAME_DIR}/Location.cpp
+    ${GAME_DIR}/Item.cpp)
 
 include_directories(${GAME_DIR})
 

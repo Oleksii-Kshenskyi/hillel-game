@@ -3,6 +3,9 @@
 
 #include <cstdlib>
 #include <sstream>
+#include <algorithm>
+#include <vector>
+#include <iostream>
 
 CommandExecutor::CommandExecutor(): command_mapping({
     {"show", new ShowCommand()},
@@ -11,6 +14,7 @@ CommandExecutor::CommandExecutor(): command_mapping({
     {"where", new WhereCommand()},
     {"describe", new DescribeCommand()},
     {"go", new GoCommand()},
+    {"use", new UseCommand()},
     {"", new UnknownCommand()},
 }) {
 
@@ -30,6 +34,11 @@ void CommandExecutor::execute(std::vector<std::string>& args, World& world) {
     this->command_mapping[(this->command_mapping.contains(args[0]) ? args[0] : "")]->execute(args, world);
 }
 
+// This function can be used instead of the lambda in the show inventory section of the ShowCommand.
+// We're using lambda in this case because it doesn't require declaring any additional functions, it just works.
+// std::string process_item(Item* item) {
+//     return item->name;
+// }
 
 // show hp
 // show inventory
@@ -39,11 +48,23 @@ void ShowCommand::execute(std::vector<std::string>& args, World& world) {
         fmt::print("Show what exactly?..");
     } else if(args.size() == 2) {
         if(args[1] == "hp") {
-            fmt::print("Player's HP: {}", world.p.hp);
+            fmt::print("Player's HP: {}/{}", world.p.hp, world.p.max_hp);
         } else if(args[1] == "name") {
             fmt::print("Player's name: {}", world.p.name);
         } else if(args[1] == "inventory") {
-            fmt::print("You have {} in your inventory.", join(world.p.inventory, ", "));
+            std::vector<std::string> names;
+            names.resize(world.p.inventory.size());
+            names.reserve(world.p.inventory.size());
+            std::transform(world.p.inventory.begin(), world.p.inventory.end(), names.begin(), [](auto& item){
+                return item->to_string();
+            });
+
+            std::stringstream ss;
+            ss << "\n";
+            for(uint32_t i = 0; i < world.p.inventory.size(); i++) {
+                ss << i + 1 << ": " << names[i] << ";\n";
+            }
+            fmt::print("You have {} in your inventory.", ss.str());
         } else if(args[1] == "exits") {
             std::stringstream ss;
             auto& exits = world.get_current_location().exits;
@@ -130,6 +151,27 @@ void GoCommand::execute(std::vector<std::string>& args, World& world) {
         }
     } else {
         fmt::print("Can only go north, south, east or west!");
+        return;
+    }
+}
+
+// TODO: show a message to the player on successful use of item!
+// TODO: one-time use items like potions or scrolls need to disappear from inventory after use!
+void UseCommand::execute(std::vector<std::string>& args, World& world) {
+    if(args.size() != 2) {
+        fmt::print("Please use one item and one only: one of the numbers shown in the `show inventory` command!");
+        return;
+    }
+    int inventory_index = -1;
+    try {
+        inventory_index = std::stoi(args[1]);
+        if(inventory_index < 1 || inventory_index > world.p.inventory.size()) {
+            fmt::print("Sorry, `{}` is out of range! (Please see `show inventory` and choose a valid item from there!)", inventory_index);
+            return;
+        }
+        world.p.inventory[inventory_index - 1]->use(world);
+    } catch(...) {
+        fmt::print("Sorry, `{}` is not a valid item index! (Please use `show inventory` command)", inventory_index);
         return;
     }
 }

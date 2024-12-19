@@ -2,7 +2,17 @@
 
 Player::Player() {
     this->name = "Nameless";
-    this->hp = 100;
-    this->inventory = std::vector<std::string>({"Potion", "Knife", "Scroll"});
+    this->hp = 25;
+    this->max_hp = 100;
+    this->inventory = std::vector<Item*> {
+        new HealingPotion(30),
+        new HealingPotion(50)
+    };
     this->current_location = "Forest";
+}
+
+Player::~Player() {
+    for(auto& item : this->inventory) {
+        delete item;
+    }
 }

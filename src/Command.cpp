@@ -157,6 +157,8 @@ void GoCommand::execute(std::vector<std::string>& args, World& world) {
 
 // TODO: show a message to the player on successful use of item!
 // TODO: one-time use items like potions or scrolls need to disappear from inventory after use!
+// TODO: develop 1-2 more types of items so that they influence the world in different ways.
+// TODO: develop the possibility of locations randomly having an item to pick up in them.
 void UseCommand::execute(std::vector<std::string>& args, World& world) {
     if(args.size() != 2) {
         fmt::print("Please use one item and one only: one of the numbers shown in the `show inventory` command!");
